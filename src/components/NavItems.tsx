@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
 
 interface NavItemProps {
     icon: string;
     title: string;
-    isUserInfo: boolean
+    isUserInfo: boolean;
+    to: string
 }
-const NavItems = ({ icon, title,isUserInfo }: NavItemProps) => {
+const NavItems = ({ icon, title,isUserInfo,to }: NavItemProps) => {
     return (
-        <div className='flex gap-2 items-center'>
+        <Link className='flex gap-2 items-center cursor-pointer' to={to}>
             <img src={icon} width={isUserInfo ? 30 : 20} height={isUserInfo ? 30 : 20} alt="" />
             <span className={`text-[14px] ${isUserInfo && "text-gray-500"}`}>{title}</span>
-        </div>
+        </Link>
     )
 }
 
