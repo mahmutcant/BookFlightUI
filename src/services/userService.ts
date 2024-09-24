@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Flight } from "../models/flightModels";
 const baseURL = import.meta.env.VITE_USER_BACKEND_BASE_URL;
 export const loginUser = async (username: string, password: string): Promise<void> => {
     try {
@@ -31,4 +32,18 @@ export const loginUser = async (username: string, password: string): Promise<voi
         console.error(err)
         throw err;
     }
+  }
+
+  export const getBookedFlights = async(): Promise<Flight[]> => {
+    try {
+        const response = await axios.get(`${baseURL}/api/user/flights`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        return response.data.flights;
+      } catch (error) {
+        console.error('Error fetching flights:', error);
+        throw error;
+      }
   }

@@ -21,7 +21,7 @@ export const getFlightInfo = async (
     const response = await axiosInstance.get(url);
     return response.data.flights;
   } catch (error) {
-    console.error('API isteğinde hata:', error);
+    console.error('API Call Error:', error);
     throw error;
   }
 };
