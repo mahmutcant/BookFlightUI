@@ -5,3 +5,25 @@
 body {
     background-color: #E7DCFF;
 }
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+      width: 15px;
+      height: 20px;
+    }
+  
+    .scrollbar::-webkit-scrollbar-track {
+      border-radius: 100vh;
+      background: transparent;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: #E7DCFF;
+      border-radius: 100vh;
+      border: 5px solid #f6f7ed;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #E7DCFF;
+    }
+  }
