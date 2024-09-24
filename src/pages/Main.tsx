@@ -15,14 +15,17 @@ import BookFlightInputs from '../components/BookFlightInputs';
 import SocialFacilities from '../components/SocialFacilities';
 import userIcon from "../assets/user-icon.svg";
 import FlightInformation from '../components/FlightInformation';
-import purplePlaneIcon from "../assets/plane-icon-purple.svg"
+import purplePlaneIcon from "../assets/plane-icon-purple.svg";
+import logoutIcon from "../assets/logout-icon.svg";
 import { getFlightInfo } from '../services/flightService';
 import { useEffect, useState } from 'react';
 import { FilterModel, Flight } from '../models/flightModels';
 import { formatDate } from '../utils/dateFormatter';
 import { getTodayAndTomorrow } from '../utils/dateFormatter';
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
+  const navigate = useNavigate()
   const [flightData, setFlightData] = useState<Flight[]>([]);
   const [filters, setFilters] = useState<FilterModel>({
     page: 0,
@@ -68,6 +71,12 @@ const Main = () => {
             <NavItems icon={tagIcon} title='Deals' isUserInfo={false} to='#' />
             <NavItems icon={earthIcon} title='Discover' isUserInfo={false} to='#' />
             <NavItems icon={localStorage.getItem("token") ? purplePlaneIcon : userIcon} title={localStorage.getItem("token") ? "Flights" : "Log in"} isUserInfo={true} to={localStorage.getItem("token") ? "/flights":'/login'} />
+            {localStorage.getItem("token") && <button onClick={() => {
+              localStorage.clear();
+              navigate("/")
+            }}>
+                <img src={logoutIcon} width={30} alt="" />
+            </button>}
           </div>
         </div>
         <div className='flex flex-row'>
