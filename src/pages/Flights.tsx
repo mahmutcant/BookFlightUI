@@ -29,10 +29,14 @@ const Flights = () => {
         <img src={backIcon} width={30} alt="" />
         <span className="font-bold">Main</span>
     </div>
-        {flights && flights.map((item,index) => (
+        {flights.length > 0 ? flights.map((item,index) => (
             <FlightInformation flightDirection={item.flightDirection} route={item.route} prefixICAO={item.prefixICAO} key={item.flightDirection + index} scheduleDate={item.scheduleDate}
             scheduleTime={item.scheduleTime} estimatedLandingTime={item.estimatedLandingTime}/>
-        ))}
+        )) : <>
+            <div className="w-full flex justify-center items-center bg-white p-3 rounded-full mt-5">
+                <span className="font-bold p-5 text-red-500">No Registered Flight Found</span>
+            </div>
+        </>}
     </div>
     </>
   )
