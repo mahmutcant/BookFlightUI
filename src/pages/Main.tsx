@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 const Main = () => {
   const navigate = useNavigate()
   const [flightData, setFlightData] = useState<Flight[]>([]);
+  const [isUserLogged, setIsUserLogged] = useState<boolean>();
   const [filters, setFilters] = useState<FilterModel>({
     page: 0,
     ...getTodayAndTomorrow()
@@ -49,6 +50,13 @@ const Main = () => {
   useEffect(() => {
     getFlights()
   }, [filters.page])
+  useEffect(() => {
+    if(localStorage.getItem("token")) 
+      setIsUserLogged(true)
+    else
+      setIsUserLogged(false)
+    
+  }, [localStorage.getItem("token")])
 
   const updateDateRange = (newFromDate: string, newToDate: string) => {
     setFilters((prevFilters) => ({
@@ -70,8 +78,8 @@ const Main = () => {
           <div className='flex gap-6 mx-4 bg-[#F6F4F8]'>
             <NavItems icon={tagIcon} title='Deals' isUserInfo={false} to='#' />
             <NavItems icon={earthIcon} title='Discover' isUserInfo={false} to='#' />
-            <NavItems icon={localStorage.getItem("token") ? purplePlaneIcon : userIcon} title={localStorage.getItem("token") ? "Flights" : "Log in"} isUserInfo={true} to={localStorage.getItem("token") ? "/flights":'/login'} />
-            {localStorage.getItem("token") && <button onClick={() => {
+            <NavItems icon={localStorage.getItem("token") ? purplePlaneIcon : userIcon} title={isUserLogged ? "Flights" : "Log in"} isUserInfo={true} to={isUserLogged ? "/flights":'/login'} />
+            {isUserLogged && <button onClick={() => {
               localStorage.clear();
               navigate("/")
             }}>

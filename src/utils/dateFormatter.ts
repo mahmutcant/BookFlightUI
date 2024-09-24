@@ -1,6 +1,6 @@
+// tarihle ilgili formatlama fonksiyonları
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-
   return date.toISOString().split(".")[0];
 };
 
