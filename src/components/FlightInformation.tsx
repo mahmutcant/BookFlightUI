@@ -7,7 +7,7 @@ import { getDestinationDetail } from "../services/flightService";
 import { timeFormatter } from "../utils/dateFormatter";
 import { addFlight } from "../services/userService";
 
-const FlightInformation = ({ flightDirection, prefixICAO, scheduleTime, route }: Flight) => {
+const FlightInformation = ({ flightDirection, prefixICAO, scheduleTime, route,scheduleDate }: Flight) => {
     const [routeDetail, setRouteDetail] = useState<DestinationsDetail>();
     const [arrivalDetail, setArrivalDetail] = useState<DestinationsDetail>();
     useEffect(() => {
@@ -28,12 +28,24 @@ const FlightInformation = ({ flightDirection, prefixICAO, scheduleTime, route }:
     }, [prefixICAO])
 
     const handleSaveFlight = () => {
-        addFlight(flightDirection, prefixICAO, scheduleTime, route).then(() => {
-            alert("flight booked successfully")
-        }).catch(() => {
-            alert("An error was encountered while booking the flight")
-        })
-    }
+        const flightDate = new Date(`${scheduleDate}T00:00:00`);
+        const now = new Date();
+      
+        now.setHours(0, 0, 0, 0);
+        
+        if (flightDate < now) {
+          alert("The scheduled time is in the past. Please choose a future date."); // geçmiş tarihli kayıt için uyarı
+          return;
+        }
+      
+        addFlight(flightDirection, prefixICAO, scheduleTime, route)
+          .then(() => {
+            alert("Flight booked successfully");
+          })
+          .catch(() => {
+            alert("An error was encountered while booking the flight");
+          });
+      };
     return (
         <>
             <div className='mt-3 bg-white pt-5 pl-5'>

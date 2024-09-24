@@ -16,10 +16,6 @@ const Flights = () => {
     useEffect(() => {
         handleBookedFlights()
     }, [])
-    useEffect(() => {
-        console.log(flights);
-        
-    }, [flights])
     const navigate = useNavigate()
   return (
     <>

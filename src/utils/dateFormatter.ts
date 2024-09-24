@@ -1,6 +1,5 @@
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  console.log(date.toISOString().split(".")[0]);
 
   return date.toISOString().split(".")[0];
 };
