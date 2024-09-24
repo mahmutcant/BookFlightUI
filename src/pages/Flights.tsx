@@ -27,7 +27,7 @@ const Flights = () => {
     <div className="w-1/2 ml-auto mr-auto mt-12">
     <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
         <img src={backIcon} width={30} alt="" />
-        <span className="font-bold">Main</span>
+        <span className="font-bold">Back</span>
     </div>
         {flights.length > 0 ? flights.map((item,index) => (
             <FlightInformation flightDirection={item.flightDirection} route={item.route} prefixICAO={item.prefixICAO} key={item.flightDirection + index} scheduleDate={item.scheduleDate}
