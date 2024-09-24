@@ -20,3 +20,11 @@ export interface FilterModel {
     toDateTime?:string;
     page: number;
 }
+
+export interface DestinationsDetail {
+    city: string;
+    country: string;
+    publicName: {
+        english: string;
+    }
+}

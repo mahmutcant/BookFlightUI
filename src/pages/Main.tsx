@@ -15,24 +15,45 @@ import BookFlightInputs from '../components/BookFlightInputs';
 import SocialFacilities from '../components/SocialFacilities';
 import userIcon from "../assets/user-icon.svg";
 import FlightInformation from '../components/FlightInformation';
-import FilterContainer from '../components/FilterContainer';
+import purplePlaneIcon from "../assets/plane-icon-purple.svg"
 import { getFlightInfo } from '../services/flightService';
+import { useEffect, useState } from 'react';
+import { FilterModel, Flight } from '../models/flightModels';
+import { formatDate } from '../utils/dateFormatter';
+import { getTodayAndTomorrow } from '../utils/dateFormatter';
 
 const Main = () => {
-  const filters = {
+  const [flightData, setFlightData] = useState<Flight[]>([]);
+  const [filters, setFilters] = useState<FilterModel>({
     page: 0,
-    fromDateTime: "2024-09-25T00:00:00",
-    toDateTime: "2024-09-26T00:00:00"
+    ...getTodayAndTomorrow()
+  })
+
+  const changePage = (amount: number) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page: prevFilters.page + amount,
+    }));
   };
 
-  const getFlights = async() => {
+  const getFlights = async () => {
     getFlightInfo(filters).then((data) => {
-      console.log(data);
+      setFlightData(data)
     }).catch((err) => {
       console.log(err);
     })
-    
   }
+  useEffect(() => {
+    getFlights()
+  }, [filters.page])
+
+  const updateDateRange = (newFromDate: string, newToDate: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      fromDateTime: formatDate(newFromDate),
+      toDateTime: formatDate(newToDate),
+    }));
+  };
   return (
     <div className='w-full flex justify-center h-screen items-center'>
       <div className='w-3/4 bg-[#F6F4F8] rounded-xl flex flex-col'>
@@ -46,7 +67,7 @@ const Main = () => {
           <div className='flex gap-6 mx-4 bg-[#F6F4F8]'>
             <NavItems icon={tagIcon} title='Deals' isUserInfo={false} to='#' />
             <NavItems icon={earthIcon} title='Discover' isUserInfo={false} to='#' />
-            <NavItems icon={userIcon} title='Log in' isUserInfo={true} to='/login' />
+            <NavItems icon={localStorage.getItem("token") ? purplePlaneIcon : userIcon} title={localStorage.getItem("token") ? "Flights" : "Log in"} isUserInfo={true} to={localStorage.getItem("token") ? "/flights":'/login'} />
           </div>
         </div>
         <div className='flex flex-row'>
@@ -60,27 +81,18 @@ const Main = () => {
               </div>
               <div className='flex'>
                 <div className='m-3 flex'>
-                  <BookFlightInputs icon={calendarIcon} left={true} key="departureInput"/>
-                  <BookFlightInputs icon={calendarIcon} left={false} key="arrivalInput" />
+                  <BookFlightInputs icon={calendarIcon} left={true} key="departureInput" setDateTime={(newDate) => updateDateRange(newDate, filters.toDateTime || "")} />
+                  <BookFlightInputs icon={calendarIcon} left={false} key="arrivalInput" setDateTime={(newDate) => updateDateRange(filters.fromDateTime || "", newDate)} />
                 </div>
               </div>
               <button className='rounded-lg bg-[#4B0097] text-white font-bold text-[14px] p-2 mx-4 my-2' onClick={() => getFlights()}>Show flights</button>
             </div>
             <div className='flex'>
-              <div className='scrollbar overflow-y-auto max-h-[600px] w-3/4'>
-                <FlightInformation />
-                <FlightInformation />
-                <FlightInformation />
-              </div>
-              <div className='p-3 flex flex-col'>
-                <span className='font-bold'>Sort by:</span>
-                <select id="" className='py-1 pl-3 pr-28 mt-3 rounded-lg'>
-                  <option value="Lowest Price">Lowest Price</option>
-                  <option value="Highest Price">Highest Price</option>
-                </select>
-                <FilterContainer options={["5:00 AM - 11:59 AM","12:00 PM - 5:59 PM"]} title='Arrival Time'/>
-                <FilterContainer options={["Nonstop","1 Stop","2+ Stops"]} title='Stops'/>
-                <FilterContainer options={["Alitalia","Lufthansa","Air France","Brussels Airlines","Air Italy","Siberia"]} title='Airlines Included'/>
+              <div className='scrollbar overflow-y-auto max-h-[600px] w-full mt-3'>
+
+                {flightData && flightData.map((item, index) => (
+                  <FlightInformation key={index} flightDirection={item.flightDirection} route={item.route} prefixICAO={item.prefixICAO} scheduleDate={item.scheduleDate} scheduleTime={item.scheduleTime} />
+                ))}
               </div>
             </div>
           </div>
@@ -90,7 +102,17 @@ const Main = () => {
             <SocialFacilities icon={vacationUmbrella} image={vacationBag} title='TRAVEL PACKAGES' />
           </div>
         </div>
+        <div className="flex justify-center w-3/4">
+        <button onClick={() => changePage(-1)} disabled={filters.page === 0} className="mb-4 flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-[#4A0096] disabled:bg-gray-800 border border-gray-300 rounded-lg hover:bg-[#7c68a5]">
+          Previous
+        </button>
+
+        <button onClick={() => changePage(1)} className="mb-4 flex items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-white bg-[#4A0096] border border-gray-300 rounded-lg hover:bg-[#7c68a5]">
+          Next
+        </button>
       </div>
+      </div>
+      
     </div>
   )
 }

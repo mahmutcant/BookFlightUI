@@ -1,17 +1,19 @@
 
 interface CustomInputProps {
     fieldName: string;
-    icon: string;
+    icon?: string;
+    setInput: (input:string) => void
 }
-const CustomInput = ({fieldName,icon}: CustomInputProps) => {
+const CustomInput = ({fieldName,icon,setInput}: CustomInputProps) => {
     return (
         <div className="relative m-8" data-twe-input-wrapper-init>
-            <img src={icon} alt="" className="absolute top-3 left-2"/>
+            {icon && <img src={icon} alt="" className="absolute top-3 left-2"/>}
             <input
                 type={fieldName}
                 className="peer block min-h-[auto] w-full rounded border border-[#4A0096] bg-transparent px-10 py-3 leading-[1.6] outline-none transition-all duration-200 ease-linear"
                 id="emaiInputText"
                 placeholder={fieldName}
+                onChange={(e) => setInput(e.target.value)}
             />
             <label
                 htmlFor="emaiInputText"

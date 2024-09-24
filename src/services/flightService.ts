@@ -1,9 +1,9 @@
 import axiosInstance from "../api/axiosInstance";
-import { FilterModel, Flight } from "../models/flightModels";
+import { DestinationsDetail, FilterModel, Flight } from "../models/flightModels";
 
 const buildFlightUrl = (filters: FilterModel) => {
   const params = new URLSearchParams();
-  params.append("flightDirection", "A");
+  params.append("flightDirection", "D");
   params.append("includedelays", "false");
   params.append("page", filters.page.toString());
   params.append("sort", "+scheduleTime");
@@ -19,9 +19,19 @@ export const getFlightInfo = async (
   try {
     const url = buildFlightUrl(filters);
     const response = await axiosInstance.get(url);
-    return response.data;
+    return response.data.flights;
   } catch (error) {
     console.error('API isteğinde hata:', error);
     throw error;
   }
 };
+
+export const getDestinationDetail = async(iataCode: string): Promise<DestinationsDetail> => {
+  try{
+    const response = await axiosInstance.get("/destinations/"+iataCode);
+    return response.data;
+  }catch(err){
+    console.error(err)
+    throw err;
+  }
+}
