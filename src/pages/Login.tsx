@@ -7,7 +7,7 @@ import tajMahal from "../assets/taj-mahal-icon.svg"
 import pisaIcon from "../assets/pisa-icon.svg";
 import { loginUser } from "../services/userService"
 import { useState } from "react"
-const Login = () => {
+const Login = () => { // giriş sayfası
     const navigate = useNavigate()
     const [mail,setMail] = useState<string>("");
     const [password,setPassword] = useState<string>("");

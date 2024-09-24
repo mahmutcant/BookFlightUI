@@ -8,8 +8,8 @@ import routeImage from "../assets/route-image.svg"
 import { useState } from 'react'
 import { register } from '../services/userService'
 
-const Signup = () => {
-    const [username,setUsername] = useState<string>("");
+const Signup = () => { // kayıt olma sayfası
+    const [username,setUsername] = useState<string>(""); 
     const [password,setPassword] = useState<string>("");
     const [mail,setMail] = useState<string>("");
     const [firstName,setFirstName] = useState<string>("");

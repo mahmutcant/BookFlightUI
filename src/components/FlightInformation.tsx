@@ -8,12 +8,13 @@ import { timeFormatter } from "../utils/dateFormatter";
 import { addFlight } from "../services/userService";
 
 const FlightInformation = ({ flightDirection, prefixICAO, scheduleTime, route,scheduleDate }: Flight) => {
-    const [routeDetail, setRouteDetail] = useState<DestinationsDetail>();
-    const [arrivalDetail, setArrivalDetail] = useState<DestinationsDetail>();
+    // Ana ekran ve kayıtlı uçuşlar sayfasında gösterilen container
+    const [routeDetail, setRouteDetail] = useState<DestinationsDetail>(); // Flights endpoint'inden dönen route değerini detaylandırmak için tanımlanan state
+    const [arrivalDetail, setArrivalDetail] = useState<DestinationsDetail>(); // Flights endpoint'inden dönen varış yeri değerini detaylandırmak için tanımlanan state
     useEffect(() => {
         if (route)
             getDestinationDetail(route.destinations[0]).then((data) => {
-                setRouteDetail(data)
+                setRouteDetail(data) // route detayı için yapılan api çağrısı
             }).catch((err) => {
                 console.log(err);
             })
@@ -21,7 +22,7 @@ const FlightInformation = ({ flightDirection, prefixICAO, scheduleTime, route,sc
     useEffect(() => {
         if (prefixICAO)
             getDestinationDetail(prefixICAO).then((data) => {
-                setArrivalDetail(data)
+                setArrivalDetail(data) // varış yeri detayı için yapılan api çağrısı
             }).catch((err) => {
                 console.log(err);
             })

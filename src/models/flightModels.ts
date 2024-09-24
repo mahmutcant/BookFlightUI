@@ -1,3 +1,4 @@
+// Schiphol API'dan dönen yanıtlara göre oluşturulan modeller 
 export interface Flight {
     scheduleDate: string;
     scheduleTime: string;

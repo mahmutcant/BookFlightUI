@@ -4,7 +4,7 @@ interface CustomInputProps {
     icon?: string;
     setInput: (input:string) => void
 }
-const CustomInput = ({fieldName,icon,setInput}: CustomInputProps) => {
+const CustomInput = ({fieldName,icon,setInput}: CustomInputProps) => { // Giriş ve kayıt işlemlerinde kullanılan input componenti
     return (
         <div className="relative m-8" data-twe-input-wrapper-init>
             {icon && <img src={icon} alt="" className="absolute top-3 left-2"/>}

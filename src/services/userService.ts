@@ -12,7 +12,7 @@ export const loginUser = async (username: string, password: string): Promise<voi
     }
   };
 
-  export const addFlight = async (flightDirection:string, prefixICAO:string, scheduleTime:string, route:object): Promise<void> => {
+  export const addFlight = async (flightDirection:string, prefixICAO:string, scheduleTime:string, route:object): Promise<void> => { // uçuş kaydı oluşturulan api çağrısı
     try {
       await axios.post(`${baseURL}/api/user/flights`, {flightDirection,prefixICAO,scheduleTime,route},{
         headers: {
@@ -25,7 +25,7 @@ export const loginUser = async (username: string, password: string): Promise<voi
     }
   };
 
-  export const register = async(username:string, password:string, email:string, firstName:string, lastName:string) => {
+  export const register = async(username:string, password:string, email:string, firstName:string, lastName:string) => { 
     try{
         await axios.post(`${baseURL}/api/auth/register`, {username, password, email, firstName, lastName});
     }catch(err){
@@ -34,7 +34,7 @@ export const loginUser = async (username: string, password: string): Promise<voi
     }
   }
 
-  export const getBookedFlights = async(): Promise<Flight[]> => {
+  export const getBookedFlights = async(): Promise<Flight[]> => { // kayıtlı uçuş bilgilerinin çekildiği fonksiyon
     try {
         const response = await axios.get(`${baseURL}/api/user/flights`, {
           headers: {

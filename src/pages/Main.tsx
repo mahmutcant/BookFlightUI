@@ -24,21 +24,21 @@ import { formatDate } from '../utils/dateFormatter';
 import { getTodayAndTomorrow } from '../utils/dateFormatter';
 import { useNavigate } from 'react-router-dom';
 
-const Main = () => {
+const Main = () => { // ana sayfa
   const navigate = useNavigate()
-  const [flightData, setFlightData] = useState<Flight[]>([]);
-  const [isUserLogged, setIsUserLogged] = useState<boolean>();
+  const [flightData, setFlightData] = useState<Flight[]>([]); // uçuş bilgilerinin tutulduğu state
+  const [isUserLogged, setIsUserLogged] = useState<boolean>(); 
   const [filters, setFilters] = useState<FilterModel>({
     page: 0,
-    ...getTodayAndTomorrow()
-  })
+    ...getTodayAndTomorrow() // eğer tarih değeri belirlememişse default olarak bugün ve yarın bilgisinin default olarak state'e atandığı fonksiyon çağrısı
+  }) // pagination işlemi ve varsa tarih aralığı oluşturduğu state
 
   const changePage = (amount: number) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       page: prevFilters.page + amount,
     }));
-  };
+  }; // sayfa değiştirme fonksiyonu
 
   const getFlights = async () => {
     getFlightInfo(filters).then((data) => {
@@ -46,10 +46,10 @@ const Main = () => {
     }).catch((err) => {
       console.log(err);
     })
-  }
+  } // uçuş bilgilerini getiren api çağrısı
   useEffect(() => {
     getFlights()
-  }, [filters.page])
+  }, [filters.page]) // sayfa değiştiğinde api çağrısı gerçekleşen useEffect fonksiyonu
   useEffect(() => {
     if(localStorage.getItem("token")) 
       setIsUserLogged(true)
@@ -64,7 +64,7 @@ const Main = () => {
       fromDateTime: formatDate(newFromDate),
       toDateTime: formatDate(newToDate),
     }));
-  };
+  }; // tarih aralığının atandığı fonksiyon
   return (
     <div className='w-full flex justify-center h-screen items-center'>
       <div className='w-3/4 bg-[#F6F4F8] rounded-xl flex flex-col'>

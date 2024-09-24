@@ -3,7 +3,7 @@ interface SocialFacilitiesProps {
     icon: string;
     title: string
 }
-const SocialFacilities = ({ image, icon, title }: SocialFacilitiesProps) => {
+const SocialFacilities = ({ image, icon, title }: SocialFacilitiesProps) => { // ana ekranın sağında bulunan sosyal alanlar görsellerinin tanımlandığı component
     return (
         <div className='m-3 relative'>
             <img

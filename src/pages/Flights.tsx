@@ -4,7 +4,7 @@ import { Flight } from "../models/flightModels";
 import FlightInformation from "../components/FlightInformation";
 import backIcon from "../assets/back-icon.svg"
 import { useNavigate } from "react-router-dom";
-const Flights = () => {
+const Flights = () => { // kullanıcının kaydettiği uçuş bilgilerinin gösterildiği component
     const [flights,setFlights] = useState<Flight[]>([])
     const handleBookedFlights = () => {
         getBookedFlights().then((data) => {
